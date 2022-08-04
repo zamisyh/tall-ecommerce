@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Livewire\Clients\Home;
+use App\Http\Livewire\Clients\Pages\Products\Checkout;
+use App\Http\Livewire\Clients\Pages\Products\Detail;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,4 +18,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::name('client.')->group(function() {
     Route::get('/', Home::class)->name('home');
+    Route::get('/category/product', Detail::class)->name('product.detail');
+    Route::get('/checkout', Checkout::class)->name('product.checkout');
 });
+
