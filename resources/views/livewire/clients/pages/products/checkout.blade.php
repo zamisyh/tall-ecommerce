@@ -1,5 +1,5 @@
 <div>
-    @section('title', 'Zami Ecommerce')
+    @section('title', 'Checkout')
     @livewire('clients.components.navbar')
 
     <div class="flex-wrap-reverse gap-10 p-4 mb-20 lg:flex sm:block">
@@ -38,57 +38,75 @@
                     <label class="label">
                         <span class="label-text">Provinsi</span>
                     </label>
-                    <select class="select select-bordered">
+                    <select class="select select-bordered" wire:model='selectedProvinsi'>
                         <option value="" selected>Pilih</option>
+                        @foreach ($data_provinsi['provinsi'] as $key => $item)
+                            <option value="{{ $item['id'] }}">{{ $item['nama'] }}</option>
+                        @endforeach
                     </select>
                     {{-- <label class="label">
                       <span class="label-text-alt">Alt label</span>
                     </label> --}}
+
+                    <span class="mt-2" wire:loading wire:target='selectedProvinsi' class="text-sm">Loading ...</span>
                 </div>
-                <div class="form-control">
-                    <label class="label">
-                        <span class="label-text">Kota / Kabupaten</span>
-                    </label>
-                    <select class="select select-bordered">
-                        <option value="" selected>Pilih</option>
-                    </select>
-                    {{-- <label class="label">
-                      <span class="label-text-alt">Alt label</span>
-                    </label> --}}
-                </div>
-                <div class="form-control">
-                    <label class="label">
-                        <span class="label-text">Kecamatan</span>
-                    </label>
-                    <select class="select select-bordered">
-                        <option value="" selected>Pilih</option>
-                    </select>
-                    {{-- <label class="label">
-                      <span class="label-text-alt">Alt label</span>
-                    </label> --}}
-                </div>
-                <div class="form-control">
-                    <label class="label">
-                        <span class="label-text">Kelurahan</span>
-                    </label>
-                    <select class="select select-bordered">
-                        <option value="" selected>Pilih</option>
-                    </select>
-                    {{-- <label class="label">
-                      <span class="label-text-alt">Alt label</span>
-                    </label> --}}
-                </div>
-                <div class="form-control">
-                    <label class="label">
-                        <span class="label-text">Kode Pos</span>
-                    </label>
-                    <select class="select select-bordered">
-                        <option value="" selected>Pilih</option>
-                    </select>
-                    {{-- <label class="label">
-                      <span class="label-text-alt">Alt label</span>
-                    </label> --}}
-                </div>
+
+                @if (!is_null($selectedProvinsi))
+                    <div class="form-control">
+                        <label class="label">
+                            <span class="label-text">Kota / Kabupaten</span>
+                        </label>
+                        <select class="select select-bordered" wire:model='selectedKota'>
+                            <option value="" selected>Pilih</option>
+                            @foreach ($data_kota['kota_kabupaten'] as $key => $item)
+                                <option value="{{ $item['id'] }}">{{ $item['nama'] }}</option>
+                            @endforeach
+                        </select>
+                        {{-- <label class="label">
+                        <span class="label-text-alt">Alt label</span>
+                        </label> --}}
+
+                        <span class="mt-2" wire:loading wire:target='selectedKota' class="text-sm">Loading ...</span>
+                    </div>
+                @endif
+
+                @if (!is_null($selectedKota))
+                    <div class="form-control">
+                        <label class="label">
+                            <span class="label-text">Kecamatan</span>
+                        </label>
+                        <select class="select select-bordered" wire:model='selectedKecamatan'>
+                            <option value="" selected>Pilih</option>
+                            @foreach ($data_kecamatan['kecamatan'] as $key => $item)
+                                <option value="{{ $item['id'] }}">{{ $item['nama'] }}</option>
+                            @endforeach
+                        </select>
+                        {{-- <label class="label">
+                        <span class="label-text-alt">Alt label</span>
+                        </label> --}}
+
+                        <span class="mt-2" wire:loading wire:target='selectedKecamatan' class="text-sm">Loading ...</span>
+                    </div>
+                @endif
+
+                @if (!is_null($selectedKecamatan))
+                    <div class="form-control">
+                        <label class="label">
+                            <span class="label-text">Kecamatan</span>
+                        </label>
+                        <select class="select select-bordered" wire:model='selectedKelurahan'>
+                            <option value="" selected>Pilih</option>
+                            @foreach ($data_kelurahan['kelurahan'] as $key => $item)
+                                <option value="{{ $item['id'] }}">{{ $item['nama'] }}</option>
+                            @endforeach
+                        </select>
+                        {{-- <label class="label">
+                        <span class="label-text-alt">Alt label</span>
+                        </label> --}}
+                    </div>
+                @endif
+
+
                  <div class="form-control">
                     <label class="label">
                         <span class="label-text">Alamat</span>
