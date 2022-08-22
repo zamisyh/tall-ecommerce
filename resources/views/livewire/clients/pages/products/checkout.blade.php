@@ -2,6 +2,29 @@
     @section('title', 'Checkout')
     @livewire('clients.components.navbar')
 
+    @section('css')
+        <link rel="stylesheet" href="{{ asset('library/select2/select2.min.css') }}">
+    @endsection
+    @section('js')
+        <script src="{{ asset('library/jquery/jquery.min.js') }}"></script>
+        <script src="{{ asset('library/select2/select2.min.js') }}"></script>
+        <script>
+            $(document).ready(function() {
+                $('.js-example-basic-single').select2();
+            });
+
+            $('#tujuan').on('change', function() {
+                @this.destination = $(this).val();
+            })
+            $('#asal').on('change', function() {
+                @this.origin = $(this).val();
+            })
+            $('#kurir').on('change', function() {
+                @this.courier = $(this).val();
+            })
+        </script>
+    @endsection
+
     <div class="flex-wrap-reverse gap-10 p-4 mb-20 lg:flex sm:block">
         <div class="flex-auto p-4 mx-auto rounded-lg shadow-xl lg:w-96 sm:w-full bg-base-100">
             <h1 class="mt-2 mb-4 text-lg font-bold">Info Akun</h1>
@@ -40,7 +63,7 @@
                     </label>
                     <select class="select select-bordered" wire:model='selectedProvinsi'>
                         <option value="" selected>Pilih</option>
-                        @foreach ($data_provinsi['provinsi'] as $key => $item)
+                        @foreach ($data['data_provinsi']['provinsi'] as $key => $item)
                             <option value="{{ $item['id'] }}">{{ $item['nama'] }}</option>
                         @endforeach
                     </select>
@@ -143,12 +166,86 @@
                     </tbody>
                 </table>
             </div>
+            <div class="mt-5 mb-3">
+                <h3 class="font-bold">Paketnya mau dikirim kemana ?</h3>
+                <div wire:ignore>
+                    <div class="mt-3 form-control">
+                        <label class="label">
+                            <span class="label-text">Kurir</span>
+                        </label>
+
+                        <select wire:model='courier' name="kurir" id="kurir" class="select select-bordered js-example-basic-single">
+                            <option value="" selected>Pilih</option>
+                            <option value="jne">JNE</option>
+                            <option value="pos">POS Indonesia</option>
+                            <option value="tiki">Tiki</option>
+                        </select>
+                    </div>
+                    <div class="mt-3 form-control">
+                        <label class="label">
+                            <span class="label-text">Asal Pengiriman</span>
+                        </label>
+                        <select wire:model='origin' name="asal" id="asal" class="select select-bordered js-example-basic-single">
+                            <option value="" selected>Pilih</option>
+                            @foreach ($data['data_provinsi_ongkir']['rajaongkir']['results'] as $item)
+                                <option value="{{ $item['city_id'] }}">
+                                    @if ($item['type'] === 'Kabupaten')
+                                        [KAB]
+                                    @else
+                                        [KOTA]
+                                    @endif
+                                    {{ $item['city_name'] }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="mt-3 form-control">
+                        <label class="label">
+                            <span class="label-text">Tujuan Pengiriman</span>
+                        </label>
+                        <select wire:model='destination' name="tujuan" id="tujuan" class="select select-bordered js-example-basic-single">
+                            <option value="" selected>Pilih</option>
+                            @foreach ($data['data_provinsi_ongkir']['rajaongkir']['results'] as $item)
+                                <option value="{{ $item['city_id'] }}">
+                                    @if ($item['type'] === 'Kabupaten')
+                                        [KAB]
+                                    @else
+                                        [KOTA]
+                                    @endif
+                                    {{ $item['city_name'] }}
+                                </option>
+                            @endforeach
+                        </select>
+
+                    </div>
+                </div>
+                <h3 class="mt-3 font-bold">Calculate Ongkir</h3>
+                @if ($openCost)
+                   <ul>
+                    @foreach ($data['data_cost']['rajaongkir']['results'] as $item)
+                        @foreach ($item['costs'] as $cost)
+                            <li class="mt-2 mb-3">
+                                <input type="radio" wire:model='ongkir' name="radio-2" class="radio" value="{{ $cost['cost'][0]['value'] }}" />
+                                <span class="ml-4">
+                                    [{{ $cost['service'] }}] [{{ $cost['description'] }}] [ {{ $cost['cost'][0]['etd'] }} Hari] [Rp. {{ number_format($cost['cost'][0]['value']) }}]
+                                </span>
+                            </li>
+                        @endforeach
+                    @endforeach
+                   </ul>
+                   <span wire:loading wire:target='ongkir'>Calculating ...</span>
+                   <span>{{ $ongkir }}</span>
+                @else
+                    Pilih kurir, asal dan tujuan pengiriman terlebih dahulu
+                @endif
+
+            </div>
             <div class="mt-10 mb-5 text-right">
                 <h4>Discount : 10.000</h4>
                 <h4>Ongkir : 7.000</h4>
                 <h4>Subtotal : 57.000 </h4>
             </div>
-            <button class="btn btn-block btn-primary">PAY</button>
+            <button class="btn btn-block btn-primary" {{ $openCost ? '' : 'disabled' }}>PAY</button>
         </div>
     </div>
 
