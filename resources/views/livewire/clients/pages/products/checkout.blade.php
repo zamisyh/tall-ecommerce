@@ -23,6 +23,8 @@
                 @this.courier = $(this).val();
             })
         </script>
+
+
     @endsection
 
     <div class="flex-wrap-reverse gap-10 p-4 mb-20 lg:flex sm:block">
@@ -245,7 +247,30 @@
                 <h4>Ongkir : 7.000</h4>
                 <h4>Subtotal : 57.000 </h4>
             </div>
-            <button class="btn btn-block btn-primary" {{ $openCost ? '' : 'disabled' }}>PAY</button>
+            @if ($isConfirmCheckout)
+                <button wire:click="$emit('payment', '{{ $snapToken }}')" class="btn btn-primary btn-block">PAY</button>
+                <script>
+                    window.livewire.on('payment', function (snapToken) {
+                        snap.pay(snapToken, {
+                            // Optional
+                            onSuccess: function (result) {
+                               console.log(snapToken)
+                            },
+                            // Optional
+                            onPending: function (result) {
+                                location.reload();
+                            },
+                            // Optional
+                            onError: function (result) {
+                                location.reload();
+                            }
+                        });
+                    });
+                </script>
+            @else
+                <button wire:loading.remove class="btn btn-block btn-primary" {{ $openCost ? '' : 'disabled' }} wire:click='checkout'>Konfirmasi Pesanan</button>
+                <button wire:loading wire:target='checkout' class="btn btn-block btn-primary" disabled>Loading ...</button>
+            @endif
         </div>
     </div>
 

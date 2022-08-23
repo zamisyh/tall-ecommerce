@@ -4,6 +4,8 @@ namespace App\Http\Livewire\Clients\Pages\Products;
 
 use Illuminate\Support\Facades\Http;
 use Livewire\Component;
+use Midtrans\Config;
+
 
 class Checkout extends Component
 {
@@ -13,6 +15,7 @@ class Checkout extends Component
     public $loading;
     public $origin, $destination, $cost, $weight, $courier, $ongkir;
     public $textOpen, $openCost;
+    public $snapToken, $isConfirmCheckout;
 
     protected $listeners = [
         'openedCost'
@@ -86,5 +89,42 @@ class Checkout extends Component
     public function openedCost()
     {
         $this->textOpen = "Loading Cost";
+    }
+
+    public function checkout()
+    {
+        $customerDetails = [
+            'first_name' => 'Zamzam',
+            'last_name' => 'Saputra',
+            'email' => 'zamsyh.dev@gmail.com',
+            'phone' => '6289602361231',
+            'address' => 'Jln. Melati',
+            'city' => 'Kota Bekasi',
+            'postal_code' => 17122
+        ];
+
+        $transactionDetails = [
+            'order_id' => uniqid(),
+            'gross_amount' => 70000
+        ];
+
+        $payload = [
+            'transaction_details' => $transactionDetails,
+            'customer_details' => $customerDetails
+        ];
+
+
+        // Set your Merchant Server Key
+        \Midtrans\Config::$serverKey = config('services.midtrans.serverKey');
+        // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
+        \Midtrans\Config::$isProduction = config('services.midtrans.isProduction');
+        // Set sanitization on (default)
+        \Midtrans\Config::$isSanitized = config('services.midtrans.isSanitized');
+        // Set 3DS transaction for credit card to true
+        \Midtrans\Config::$is3ds = config('services.midtrans.is3ds');
+
+        $this->snapToken = \Midtrans\Snap::getSnapToken($payload);
+
+        $this->isConfirmCheckout = true;
     }
 }
