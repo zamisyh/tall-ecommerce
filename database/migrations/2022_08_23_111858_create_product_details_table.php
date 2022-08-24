@@ -15,6 +15,13 @@ class CreateProductDetailsTable extends Migration
     {
         Schema::create('product_details', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('product_id');
+            $table->integer('stock');
+            $table->string('discount')->nullable();
+            $table->string('price');
+
+
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

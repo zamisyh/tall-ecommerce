@@ -9,6 +9,7 @@
         "bumbummen99/shoppingcart": "^4.2",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
+        "jantinnerezo/livewire-alert": "^2.2",
         "laravel-frontend-presets/tall": "^4.0",
         "laravel/framework": "^8.75",
         "laravel/sanctum": "^2.11",

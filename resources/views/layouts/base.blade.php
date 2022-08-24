@@ -37,6 +37,9 @@
 
         <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('services.midtrans.clientKey') }}"></script>
         @livewireScripts
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <x-livewire-alert::scripts />
+
         <script src="https://cdn.jsdelivr.net/gh/livewire/turbolinks@v0.1.x/dist/livewire-turbolinks.js" data-turbolinks-eval="false" data-turbo-eval="false"></script>
     </body>
 </html>
