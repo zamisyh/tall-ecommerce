@@ -12,7 +12,7 @@ class Category extends Component
 {
 
     use LivewireAlert, WithPagination;
-    protected $paginationTheme = 'bootstrap';
+    protected $paginationTheme = 'tailwind';
     protected $listeners = [
         'confirmed',
         'cancelled'
@@ -27,7 +27,12 @@ class Category extends Component
     {
         $data = null;
 
-        $data['data']['data_category'] = ModelsCategory::orderBy('created_at', 'DESC')->paginate($this->rows);
+        if ($this->search) {
+            $data['data']['data_category'] = ModelsCategory::where('name', 'LIKE', '%' . $this->search . '%')->orderBy('created_at', 'DESC')->paginate($this->rows);
+        } else {
+            $data['data']['data_category'] = ModelsCategory::orderBy('created_at', 'DESC')->paginate($this->rows);
+        }
+
 
         return view('livewire.admin.category', $data)->extends('layouts.app')->section('content');
     }

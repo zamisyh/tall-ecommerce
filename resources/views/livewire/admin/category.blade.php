@@ -103,7 +103,7 @@
                     </div>
                 </div>
                 <div class="justify-center mt-5">
-                    {{-- {{ $data['dataUser']->links() }} --}}
+                    {{ $data['data_category']->links() }}
                 </div>
            </div>
 

@@ -2,6 +2,8 @@
 
 use App\Http\Livewire\Admin\Category;
 use App\Http\Livewire\Admin\Home as AdminHome;
+use App\Http\Livewire\Admin\Products;
+use App\Http\Livewire\Admin\Tag;
 use App\Http\Livewire\Clients\Home;
 use App\Http\Livewire\Clients\Pages\Auth\Signin;
 use App\Http\Livewire\Clients\Pages\Products\Checkout;
@@ -40,6 +42,8 @@ Route::name('admin.')->group(function() {
             //Admin role
             Route::middleware(['role:admin'])->group(function() {
                 Route::get('/category', Category::class)->name('category');
+                Route::get('/tags', Tag::class)->name('tag');
+                Route::get('/products', Products::class)->name('products');
             });
 
         });
