@@ -8,7 +8,7 @@
                         <figure><img loading="lazy" src="{{ asset('storage/images/products/' . $item->image) }}" alt="" class="w-full h-auto" /></figure>
                         <div class="card-body">
                             <div class="flex justify-between">
-                                <a href="#" class="card-title hover:opacity-80">
+                                <a href="{{ route('client.product.detail', [$item->category->slug, $item->slug]) }}" class="card-title hover:opacity-80">
                                     {{ $item->name }}
                                 </a>
                                 <span class="badge badge-primary">{{ $item->category->name }}</span>

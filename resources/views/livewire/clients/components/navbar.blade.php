@@ -8,9 +8,10 @@
                 </svg>
             </label>
             <ul x-show="dropdown" tabindex="0" class="p-2 mt-3 shadow-xl menu menu-compact dropdown-content bg-base-100 rounded-box w-52">
-                <li><a>Homepage</a></li>
-                <li><a>Portfolio</a></li>
-                <li><a>About</a></li>
+                <li>
+                    <a href="{{ route('client.home') }}">Home</a>
+                </li>
+
             </ul>
         </div>
     </div>

@@ -113,6 +113,7 @@ class Products extends Component
         $data = Product::where('id', $id)->with('product_detail', 'tag')->first();
         $data->name = $this->name;
         $data->description = $this->description;
+        $data->slug = Str::slug($this->name);
         $data->category_id = $this->category;
 
         $data->tag()->sync($this->tag);
