@@ -2,27 +2,36 @@
     <div class="mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl">
         <div class="mx-auto">
             <div class="flex flex-wrap">
+               @foreach ($data['data_product'] as $item)
                 <div class="w-full p-4 sm:w-1/2 md:w-1/2 xl:w-1/3">
                     <div class="block overflow-hidden transition duration-500 transform bg-white rounded-lg shadow-md hover:scale-105 c-card hover:shadow-xl">
-                        <figure><img loading="lazy" src="https://picsum.photos/10/10/?blur" alt="" class="w-full h-auto" /></figure>
+                        <figure><img loading="lazy" src="{{ asset('storage/images/products/' . $item->image) }}" alt="" class="w-full h-auto" /></figure>
                         <div class="card-body">
                             <div class="flex justify-between">
                                 <a href="#" class="card-title hover:opacity-80">
-                                    Kaos Murah 2022 Hanya Di Toko Kami
+                                    {{ $item->name }}
                                 </a>
-                                <span class="badge badge-primary">Baju</span>
+                                <span class="badge badge-primary">{{ $item->category->name }}</span>
                             </div>
                             <div class="flex flex-wrap gap-3 mb-4">
-                                <span class="badge badge-secondary">#Kaos</span>
-                                <span class="badge badge-secondary">#SerbaMurah</span>
+                                @foreach ($item->tag as $tag)
+                                    <a href="{{ $tag->slug }}" role="button" class="badge badge-secondary">#{{ $tag->name }}</a>
+                                @endforeach
                             </div>
                             </p>
-                               Lorem ipsum dolor, sit amet consectetur adipisicing elit. Culpa, velit!
+                                {!! substr($item->description, 0, 100) !!} ...
                             </p>
                             <div class="flex justify-between mt-5">
                                 <div class="indicator">
-                                    <span class="mb-2 indicator-item indicator-top indicator-end badge badge-success">Rp. 80,000</span>
-                                    <s class="mt-2 text-lg font-bold">Rp. 100,000</s>
+                                    @if ($item->product_detail->discount > 0)
+                                        <span class="mb-2 indicator-item indicator-top indicator-end badge badge-success">
+                                            Rp. {{ number_format( $item->product_detail->price - ($item->product_detail->price / 100) * $item->product_detail->discount) }}
+                                        </span>
+                                        <s class="mt-2 text-lg font-bold">Rp. {{ number_format($item->product_detail->price) }}</s>
+
+                                    @else
+                                        <span class="mt-2 text-lg font-bold">Rp. {{ number_format($item->product_detail->price) }}</span>
+                                    @endif
                                 </div>
                                 <div class="btn btn-ghost hover:text-white">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-cart4" viewBox="0 0 16 16">
@@ -33,6 +42,7 @@
                         </div>
                     </div>
                 </div>
+               @endforeach
             </div>
         </div>
     </div>

@@ -23,7 +23,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::name('client.')->group(function() {
     Route::get('/', Home::class)->name('home');
-    Route::get('/category/product', Detail::class)->name('product.detail');
+    Route::get('/product/{category}/{name}', Detail::class)->name('product.detail');
     Route::get('/checkout', Checkout::class)->name('product.checkout');
 
     Route::prefix('auth')->group(function () {

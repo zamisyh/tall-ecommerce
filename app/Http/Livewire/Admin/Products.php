@@ -137,7 +137,7 @@ class Products extends Component
         }
 
         $data->update();
-        $this->openForm = false;
+        $this->reset();
     }
 
     public function delete($id)
@@ -167,6 +167,11 @@ class Products extends Component
             'success',
             'Category deleted'
         );
+    }
+
+    public function backButton()
+    {
+        $this->reset();
     }
 
     public function validationSchema()

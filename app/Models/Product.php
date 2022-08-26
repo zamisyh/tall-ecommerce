@@ -19,4 +19,9 @@ class Product extends Model
     {
         return $this->belongsToMany(Tag::class, 'product_tags')->withTimestamps();
     }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
 }

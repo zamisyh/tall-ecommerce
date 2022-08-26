@@ -54,7 +54,7 @@
                 </div>
                <div>
                     @if ($openForm)
-                        <button wire:click='$set("openForm", false)' class="btn btn-primary">Back</button>
+                        <button wire:click='backButton' class="btn btn-primary">Back</button>
                     @else
                         <button wire:click='$set("openForm", true)' class="btn btn-primary">Create Product <i class="fa fa-tags" aria-hidden="true"></i></button>
                     @endif
