@@ -85,7 +85,7 @@
                                     @enderror">
                                         <option value="" selected>Pilih</option>
                                         @foreach ($data_category as $item)
-                                            <option value="{{ $item->slug }}">{{ $item->name }}</option>
+                                            <option value="{{ $item->id }}">{{ $item->name }}</option>
                                         @endforeach
                                     </select>
                                     @error('category')
@@ -141,9 +141,13 @@
                                     @enderror
                                 </div>
                                 <div class="mt-6 mb-2">
-                                    <button wire:click='save' wire:loading.remove class="btn btn-primary">Save</button>
-                                    <button wire:loading wire:target='save' class="btn btn-primary" disabled>Saving...</button>
-
+                                   @if ($product_id)
+                                        <button wire:click='update({{ $product_id }})' wire:loading.remove class="btn btn-primary">Update</button>
+                                        <button wire:loading wire:target='save' class="btn btn-primary" disabled>Updating...</button>
+                                   @else
+                                        <button wire:click='save' wire:loading.remove class="btn btn-primary">Save</button>
+                                        <button wire:loading wire:target='save' class="btn btn-primary" disabled>Saving...</button>
+                                   @endif
                                 </div>
                             </div>
                         @else
@@ -180,8 +184,13 @@
                                             <td>
                                                 Rp. {{ number_format($item->product_detail->price) }}
                                             </td>
-                                            <td>
-
+                                            <td class="flex gap-3">
+                                                <svg wire:click='delete({{ $item->id }})' role="button" class="text-error" style="width:24px;height:24px" viewBox="0 0 24 24">
+                                                    <path fill="currentColor" d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z" />
+                                                </svg>
+                                                <svg role="button" wire:click='edit({{ $item->id }})' class="text-blue-500" style="width:24px;height:24px" viewBox="0 0 24 24">
+                                                    <path fill="currentColor" d="M14.06,9L15,9.94L5.92,19H5V18.08L14.06,9M17.66,3C17.41,3 17.15,3.1 16.96,3.29L15.13,5.12L18.88,8.87L20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18.17,3.09 17.92,3 17.66,3M14.06,6.19L3,17.25V21H6.75L17.81,9.94L14.06,6.19Z" />
+                                                </svg>
                                             </td>
                                         </tr>
                                     @endforeach
