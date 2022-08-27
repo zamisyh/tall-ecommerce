@@ -17,7 +17,7 @@ class Checkout extends Component
     public $origin, $destination, $cost, $weight, $courier, $ongkir;
     public $textOpen, $openCost;
     public $snapToken, $isConfirmCheckout;
-    public $cart;
+    public $cart, $finalTotal = 0, $btnConfirm;
 
     protected $listeners = [
         'openedCost',
@@ -51,7 +51,7 @@ class Checkout extends Component
             ])->post('https://api.rajaongkir.com/starter/cost', [
                 'origin' => $this->origin,
                 'destination' => $this->destination,
-                'weight' => 1,
+                'weight' => $this->getWeight(),
                 'courier' => $this->courier
             ])->json();
 
@@ -145,6 +145,26 @@ class Checkout extends Component
     public function updateTable()
     {
         $this->cart = Cart::content();
+    }
+
+    public function getWeight()
+    {
+        $cart = Cart::content();
+        $data = null;
+
+        foreach ($cart as $key => $value) {
+            $data[] = $cart[$key]->weight;
+        }
+
+        return array_sum($data);
+
+    }
+
+    public function updatedOngkir()
+    {
+        $cartTotal = intval(str_replace(',', '', Cart::total()));
+        $this->finalTotal = $cartTotal + $this->ongkir;
+        $this->btnConfirm = true;
     }
 
 

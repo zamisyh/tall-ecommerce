@@ -36,7 +36,7 @@ class Lists extends Component
             'name' => $product->name,
             'qty' => 1,
             'price' => $discountPrice,
-            'weight' => $product->product_detail->price,
+            'weight' => $product->product_detail->weight,
             'discount' => $product->product_detail->discount,
             'options' => [
                 'size' => ''

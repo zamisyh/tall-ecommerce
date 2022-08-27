@@ -242,9 +242,9 @@
 
             </div>
             <div class="mt-10 mb-5 text-right">
-                {{-- <h4>Discount : 10.000</h4> --}}
-                <h4>Ongkir : {{ number_format($ongkir ?? 0) }}</h4>
-                <h4>Subtotal : {{ Cart::total() }} </h4>
+                <h4>Ongkir : Rp. {{ number_format($ongkir ?? 0) }}</h4>
+                <h4>Subtotal : Rp. {{ Cart::total() }} </h4>
+                <h4>Total : Rp. {{ number_format($finalTotal) }}</h4>
             </div>
             @if ($isConfirmCheckout)
                 <button wire:click="$emit('payment', '{{ $snapToken }}')" class="btn btn-primary btn-block">PAY</button>
@@ -267,7 +267,7 @@
                     });
                 </script>
             @else
-                <button wire:loading.remove class="btn btn-block btn-primary" {{ $openCost ? '' : 'disabled' }} wire:click='checkout'>Konfirmasi Pesanan</button>
+                <button wire:loading.remove class="btn btn-block btn-primary" {{ $btnConfirm ? '' : 'disabled' }} wire:click='checkout'>Konfirmasi Pesanan</button>
                 <button wire:loading wire:target='checkout' class="btn btn-block btn-primary" disabled>Loading ...</button>
             @endif
         </div>
