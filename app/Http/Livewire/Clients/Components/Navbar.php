@@ -9,7 +9,7 @@ use Gloudemans\Shoppingcart\Facades\Cart;
 class Navbar extends Component
 {
     protected $listeners = [
-        'addProduct'
+        'addProduct', 'deleteProductCount'
     ];
 
     public $countCart = 0;

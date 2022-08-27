@@ -6,8 +6,13 @@
             <div class="mt-2 mb-3 shadow-md card card-side bg-base-100">
                 <div class="card-body">
                    @foreach ($cart as $item)
-                    <div class="cart">
-                        <h2 class="card-title">{{ $item->name }}</h2>
+                    <div class="mb-10 cart">
+                        <div class="flex justify-between">
+                            <h2 class="card-title">{{ $item->name }}</h2>
+                            <svg role="button" wire:click='deleteProduct("{{ $item->rowId }}")' class="text-error" style="width:24px;height:24px" viewBox="0 0 24 24">
+                                <path fill="currentColor" d="M20.37,8.91L19.37,10.64L7.24,3.64L8.24,1.91L11.28,3.66L12.64,3.29L16.97,5.79L17.34,7.16L20.37,8.91M6,19V7H11.07L18,11V19A2,2 0 0,1 16,21H8A2,2 0 0,1 6,19Z" />
+                            </svg>
+                        </div>
                         <h4 class="mb-3 font-bold card-description">Harga : {{ number_format($item->price) }}</h4>
                         <div class="flex gap-4">
                             <div>

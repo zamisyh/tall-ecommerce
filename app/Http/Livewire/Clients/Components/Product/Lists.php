@@ -37,7 +37,10 @@ class Lists extends Component
             'qty' => 1,
             'price' => $discountPrice,
             'weight' => $product->product_detail->price,
-            'discount' => $product->product_detail->discount
+            'discount' => $product->product_detail->discount,
+            'options' => [
+                'size' => ''
+            ]
         ];
 
         Cart::add($data)->associate('products');

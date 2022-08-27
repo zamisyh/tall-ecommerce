@@ -150,21 +150,20 @@
                     <thead>
                         <tr>
                             <th>Product</th>
+                            <th>Size</th>
                             <th>Qty</th>
                             <th>Total</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>Pulpen Standard</td>
-                            <td>5</td>
-                            <td>10.000</td>
-                        </tr>
-                        <tr>
-                            <td>Kacamata Minus Photocromic</td>
-                            <td>2</td>
-                            <td>50.000</td>
-                        </tr>
+                        @foreach ($cart as $item)
+                            <tr>
+                                <td>{{ $item->name }}</td>
+                                <td>{{ $item->options->size }}</td>
+                                <td>{{ $item->qty }}</td>
+                                <td>{{ number_format($item->subtotal) }}</td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
@@ -236,16 +235,16 @@
                     @endforeach
                    </ul>
                    <span wire:loading wire:target='ongkir'>Calculating ...</span>
-                   <span>{{ $ongkir }}</span>
+
                 @else
                     Pilih kurir, asal dan tujuan pengiriman terlebih dahulu
                 @endif
 
             </div>
             <div class="mt-10 mb-5 text-right">
-                <h4>Discount : 10.000</h4>
-                <h4>Ongkir : 7.000</h4>
-                <h4>Subtotal : 57.000 </h4>
+                {{-- <h4>Discount : 10.000</h4> --}}
+                <h4>Ongkir : {{ number_format($ongkir ?? 0) }}</h4>
+                <h4>Subtotal : {{ Cart::total() }} </h4>
             </div>
             @if ($isConfirmCheckout)
                 <button wire:click="$emit('payment', '{{ $snapToken }}')" class="btn btn-primary btn-block">PAY</button>

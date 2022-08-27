@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Clients\Pages\Products;
 use Illuminate\Support\Facades\Http;
 use Livewire\Component;
 use Midtrans\Config;
+use Gloudemans\Shoppingcart\Facades\Cart;
 
 
 class Checkout extends Component
@@ -16,14 +17,25 @@ class Checkout extends Component
     public $origin, $destination, $cost, $weight, $courier, $ongkir;
     public $textOpen, $openCost;
     public $snapToken, $isConfirmCheckout;
+    public $cart;
 
     protected $listeners = [
-        'openedCost'
+        'openedCost',
+        'updateSubtotal' => 'updateTable',
+        'updateSize' => 'updateTable'
     ];
 
+    // public function mount()
+    // {
+    //     $this->cart = Cart::content();
+    // }
 
     public function render()
     {
+        if (Cart::count() === 0) {
+            redirect()->route('client.home');
+        }
+
         $data = null;
 
         $data['data']['data_provinsi'] = Http::get('https://api.iluzi.id/region/')->json();
@@ -46,6 +58,7 @@ class Checkout extends Component
             // dd($data['data']['data_cost']);
         }
 
+        $this->cart = Cart::content();
 
         return view('livewire.clients.pages.products.checkout', $data)->extends('layouts.app')->section('content');
     }
@@ -128,4 +141,11 @@ class Checkout extends Component
 
         $this->isConfirmCheckout = true;
     }
+
+    public function updateTable()
+    {
+        $this->cart = Cart::content();
+    }
+
+
 }
