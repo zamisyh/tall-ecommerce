@@ -17,6 +17,7 @@ class CreateProductDetailsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('product_id');
             $table->integer('stock');
+            $table->string('weight');
             $table->string('discount')->nullable();
             $table->string('price');
 

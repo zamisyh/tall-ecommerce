@@ -25,7 +25,8 @@ class Checkout extends Component
     public function render()
     {
         $data = null;
-        $data['data']['data_provinsi'] = Http::get('http://dev.farizdotid.com/api/daerahindonesia/provinsi')->json();
+
+        $data['data']['data_provinsi'] = Http::get('https://api.iluzi.id/region/')->json();
         $data['data']['data_provinsi_ongkir'] = Http::withHeaders([
             'key' => env('RAJAONGKIR_API_KEY')
         ])->get('https://api.rajaongkir.com/starter/city')->json();
@@ -51,17 +52,17 @@ class Checkout extends Component
 
     public function updatedSelectedProvinsi($id)
     {
-        $this->data_kota = Http::get('http://dev.farizdotid.com/api/daerahindonesia/kota?id_provinsi=' . $id)->json();
+        $this->data_kota = Http::get('https://api.iluzi.id/region/province?id=' . $id)->json();
     }
 
     public function updatedSelectedKota($id)
     {
-        $this->data_kecamatan = Http::get('http://dev.farizdotid.com/api/daerahindonesia/kecamatan?id_kota=' . $id)->json();
+        $this->data_kecamatan = Http::get('https://api.iluzi.id/region/regency?id=' . $id)->json();
     }
 
     public function updatedSelectedKecamatan($id)
     {
-        $this->data_kelurahan = Http::get('http://dev.farizdotid.com/api/daerahindonesia/kelurahan?id_kecamatan=' . $id)->json();
+        $this->data_kelurahan = Http::get('https://api.iluzi.id/region/district?id=' . $id)->json();
 
     }
 

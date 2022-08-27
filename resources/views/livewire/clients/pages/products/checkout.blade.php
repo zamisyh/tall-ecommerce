@@ -65,8 +65,8 @@
                     </label>
                     <select class="select select-bordered" wire:model='selectedProvinsi'>
                         <option value="" selected>Pilih</option>
-                        @foreach ($data['data_provinsi']['provinsi'] as $key => $item)
-                            <option value="{{ $item['id'] }}">{{ $item['nama'] }}</option>
+                        @foreach ($data['data_provinsi']['data'] as $key => $item)
+                            <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>
                         @endforeach
                     </select>
                     {{-- <label class="label">
@@ -83,8 +83,8 @@
                         </label>
                         <select class="select select-bordered" wire:model='selectedKota'>
                             <option value="" selected>Pilih</option>
-                            @foreach ($data_kota['kota_kabupaten'] as $key => $item)
-                                <option value="{{ $item['id'] }}">{{ $item['nama'] }}</option>
+                            @foreach ($data_kota['data']['regencies'] as $key => $item)
+                                <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>
                             @endforeach
                         </select>
                         {{-- <label class="label">
@@ -102,8 +102,8 @@
                         </label>
                         <select class="select select-bordered" wire:model='selectedKecamatan'>
                             <option value="" selected>Pilih</option>
-                            @foreach ($data_kecamatan['kecamatan'] as $key => $item)
-                                <option value="{{ $item['id'] }}">{{ $item['nama'] }}</option>
+                            @foreach ($data_kecamatan['data']['districts'] as $key => $item)
+                                <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>
                             @endforeach
                         </select>
                         {{-- <label class="label">
@@ -117,12 +117,12 @@
                 @if (!is_null($selectedKecamatan))
                     <div class="form-control">
                         <label class="label">
-                            <span class="label-text">Kecamatan</span>
+                            <span class="label-text">Kelurahan</span>
                         </label>
                         <select class="select select-bordered" wire:model='selectedKelurahan'>
                             <option value="" selected>Pilih</option>
-                            @foreach ($data_kelurahan['kelurahan'] as $key => $item)
-                                <option value="{{ $item['id'] }}">{{ $item['nama'] }}</option>
+                            @foreach ($data_kelurahan['data']['villages'] as $key => $item)
+                                <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>
                             @endforeach
                         </select>
                         {{-- <label class="label">

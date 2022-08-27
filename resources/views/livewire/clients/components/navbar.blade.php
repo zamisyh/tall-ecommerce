@@ -22,11 +22,13 @@
         <label for="my-modal-6" tabindex="0" class="btn btn-ghost btn-circle modal-button">
             <div class="indicator">
               <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
-              <span class="badge badge-sm indicator-item" data-theme="dark">8</span>
+              <span class="badge badge-sm indicator-item" data-theme="dark">
+                {{ $this->countCart }}
+              </span>
             </div>
         </label>
         <input type="checkbox" id="my-modal-6" class="modal-toggle" />
-        @include('livewire.clients.components.product.cart.modal')
+        @livewire('clients.components.product.cart')
         <div class="dropdown dropdown-end" x-data="{ dropdownAuth: false }">
             <label tabindex="0" class="btn btn-ghost btn-circle" @click="dropdownAuth = !dropdownAuth">
                 <svg class="w-6 h-6" viewBox="0 0 24 24">
@@ -34,18 +36,20 @@
                 </svg>
             </label>
             <ul x-show="dropdownAuth" tabindex="0" class="p-2 mt-3 shadow-lg menu menu-compact dropdown-content bg-base-100 rounded-box w-52">
-                <li>
-                    <a>Login</a>
-                </li>
-                <li>
-                    <a>Register</a>
-                </li>
+                @if (!Auth::check())
+                    <li>
+                        <a href="{{ route('client.auth.signin') }}">Login</a>
+                    </li>
+                    <li>
+                        <a>Register</a>
+                    </li>
+                @endif
                 @auth
                     <li>
                         <a>Pesanan Saya</a>
                     </li>
                     <li>
-                        <a>Logout</a>
+                        <a wire:click='logout'>Logout</a>
                     </li>
                 @endauth
             </ul>

@@ -19,6 +19,8 @@ class CreateOrdersTable extends Migration
             $table->unsignedBigInteger('customer_id');
             $table->string('status_pesanan');
             $table->string('status_payment');
+            $table->string('size');
+            $table->string('message')->nullable();
 
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade')->onUpdate('cascade');
