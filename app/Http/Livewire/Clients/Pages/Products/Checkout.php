@@ -6,10 +6,13 @@ use Illuminate\Support\Facades\Http;
 use Livewire\Component;
 use Midtrans\Config;
 use Gloudemans\Shoppingcart\Facades\Cart;
-
+use Illuminate\Support\Facades\Auth;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 class Checkout extends Component
 {
+
+    use LivewireAlert;
 
     public $data_provinsi, $data_kota, $data_kecamatan, $data_kelurahan;
     public $selectedProvinsi, $selectedKota, $selectedKecamatan, $selectedKelurahan;
@@ -22,18 +25,23 @@ class Checkout extends Component
     protected $listeners = [
         'openedCost',
         'updateSubtotal' => 'updateTable',
-        'updateSize' => 'updateTable'
+        'updateSize' => 'updateTable',
+        'saveCartToDb'
     ];
 
     // public function mount()
     // {
-    //     $this->cart = Cart::content();
+
     // }
 
     public function render()
     {
         if (Cart::count() === 0) {
             redirect()->route('client.home');
+        }elseif(!Auth::check()) {
+            redirect()->route('client.auth.signin');
+            session()->flash('message', 'Oppss, sepertinya anda belum login, yuk buruan login');
+
         }
 
         $data = null;
@@ -107,24 +115,51 @@ class Checkout extends Component
 
     public function checkout()
     {
-        $customerDetails = [
-            'first_name' => 'Zamzam',
-            'last_name' => 'Saputra',
-            'email' => 'zamsyh.dev@gmail.com',
-            'phone' => '6289602361231',
-            'address' => 'Jln. Melati',
-            'city' => 'Kota Bekasi',
-            'postal_code' => 17122
-        ];
+
+        // $items = [];
+
+        // foreach (Cart::content() as $key => $value) {
+        //     $items[] = [
+        //         'id' => $value->id,
+        //         'price' => $value->price,
+        //         'quantity' => $value->qty,
+        //         'name' => $value->name,
+        //     ];
+        // }
 
         $transactionDetails = [
             'order_id' => uniqid(),
-            'gross_amount' => 70000
+            'gross_amount' => $this->finalTotal
+        ];
+
+        $customerDetails = [
+            "first_name" => "TEST",
+            "last_name" => "UTOMO",
+            "email" => "test@midtrans.com",
+            "phone" => "+628123456",
+            "billing_address" => [
+                "first_name" => "TEST",
+                "last_name" => "UTOMO",
+                "phone" => "081 2233 44-55",
+                "address" => "Sudirman",
+                "city" => "Jakarta",
+                "postal_code" => "12190",
+                "country_code" => "IDN"
+            ],
+            "shipping_address" => [
+                "first_name" => "TEST",
+                "last_name" => "UTOMO",
+                "phone" => "0 8128-75 7-9338",
+                "address" => "Sudirman",
+                "city" => "Jakarta",
+                "postal_code" => "12190",
+                "country_code" => "IDN",
+            ]
         ];
 
         $payload = [
+            'customer_details' => $customerDetails,
             'transaction_details' => $transactionDetails,
-            'customer_details' => $customerDetails
         ];
 
 
@@ -164,7 +199,16 @@ class Checkout extends Component
     {
         $cartTotal = intval(str_replace(',', '', Cart::total()));
         $this->finalTotal = $cartTotal + $this->ongkir;
+
+
         $this->btnConfirm = true;
+    }
+
+    public function saveCartToDb()
+    {
+        // Cart::destroy();
+        // return redirect()->route('client.home');
+
     }
 
 

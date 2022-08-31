@@ -8,6 +8,7 @@ use App\Http\Livewire\Clients\Home;
 use App\Http\Livewire\Clients\Pages\Auth\Signin;
 use App\Http\Livewire\Clients\Pages\Products\Checkout;
 use App\Http\Livewire\Clients\Pages\Products\Detail;
+use App\Http\Livewire\Clients\Pages\Auth\Signup;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,6 +30,7 @@ Route::name('client.')->group(function() {
     Route::prefix('auth')->group(function () {
         Route::name('auth.')->group(function() {
             Route::get('/signin', Signin::class)->name('signin');
+            Route::get('/signup', Signup::class)->name('signup');
         });
     });
 

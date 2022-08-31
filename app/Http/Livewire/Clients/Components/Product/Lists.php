@@ -39,7 +39,8 @@ class Lists extends Component
             'weight' => $product->product_detail->weight,
             'discount' => $product->product_detail->discount,
             'options' => [
-                'size' => ''
+                'size' => '',
+                'ongkir' => ''
             ]
         ];
 

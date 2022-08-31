@@ -168,7 +168,7 @@
                 </table>
             </div>
             <div class="mt-5 mb-3">
-                <h3 class="font-bold">Paketnya mau dikirim kemana ?</h3>
+                <h3 class="font-bold">Pilih opsi pengiriman ?</h3>
                 <div wire:ignore>
                     <div class="mt-3 form-control">
                         <label class="label">
@@ -253,7 +253,7 @@
                         snap.pay(snapToken, {
                             // Optional
                             onSuccess: function (result) {
-                               console.log(snapToken)
+                                window.livewire.emit('saveCartToDb');
                             },
                             // Optional
                             onPending: function (result) {
